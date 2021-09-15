@@ -144,6 +144,22 @@ header nav span:last-child {
   font-size: 0.8rem;
 }
 
+
+
+.card .card-content .card-footer .footer-container button {
+  margin-left:1rem;
+  padding: 0.3rem;
+  border:none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.card .card-content .card-footer .footer-container button:first-child {
+  background: #f13333;
+  color: white;
+}
+
 /* modals */
 
 .modal-bg {
@@ -159,7 +175,7 @@ header nav span:last-child {
 
 .modal-container {
   width: 500px;
-  height: 500px;
+  height: auto;
   border-radius: 15px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -214,4 +230,31 @@ header nav span:last-child {
 .modal-container .modal-footer button:first-child {
   background: #f13333;
   color: white;
+}
+
+.modal-container .modal-body form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-container .modal-body form label {
+  margin-bottom: 1rem;
+}
+
+.modal-container .modal-body form input, .modal-container .modal-body form textarea, .modal-container .modal-body form select {
+  margin-bottom: 1rem;
+  border: none;
+  border-bottom: 1px solid #3d3d3d;
+  padding: 0.5rem;
+}
+
+modal-container .modal-body form option {
+  border:none;
+}
+
+.modal-container .modal-body form .checkbox-input {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

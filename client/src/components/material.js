@@ -1,7 +1,7 @@
 import React from "react";
 
 const Material = (props) => {
-    const { material, openModal} = props;
+    const { material, openModal, openDeleteModal} = props;
     return (
         <>
         <div className="card">
@@ -16,7 +16,9 @@ const Material = (props) => {
                     <div className="footer-container">
                         <button onClick={() => {
                             openModal(true)
-                        }}>editar</button> |<button>deletar</button>
+                        }}>editar</button><button onClick={() => {
+                            openDeleteModal(true)
+                        }}>deletar</button>
                     </div>
                 </div>
             </div>

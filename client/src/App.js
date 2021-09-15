@@ -1,8 +1,9 @@
+import './App.css';
 import React from 'react';
 import Material from './components/material';
 import ModalCreate from "./components/modal-create";
 import ModalEdit from "./components/modal-edit";
-import './App.css';
+import ModalDelete from './components/modal-delete';
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
   const [search, setSearch] = React.useState("")
   const [modalEditOpen, setModalEditOpen] = React.useState(false)
   const [modalCreateOpen, setModalCreateOpen] = React.useState(false)
+  const [modalDeleteOpen, setModalDeleteOpen] = React.useState(false)
 
   React.useEffect(() => {
     fetch("https://localhost:3001/materials")
@@ -30,8 +32,9 @@ function App() {
 
   return (
     <div className="App">
-     {modalEditOpen && <ModalEdit closeModal={setModalEditOpen}/>}
+      {modalEditOpen && <ModalEdit closeModal={setModalEditOpen}/>}
       {modalCreateOpen && <ModalCreate closeModal={setModalCreateOpen}/>}
+      {modalDeleteOpen && <ModalDelete closeModal={setModalDeleteOpen}/>}
         <header>
             <nav>
                <span className="title">Materiais</span>
@@ -56,13 +59,13 @@ function App() {
         </div>      
         
         <div className="materials-box">
-          <Material material ={mat} openModal={setModalEditOpen}/>
-          <Material material ={mat} openModal={setModalEditOpen}/>
-          <Material material ={mat} openModal={setModalEditOpen}/>
-          <Material material ={mat} openModal={setModalEditOpen}/>
-          <Material material ={mat} openModal={setModalEditOpen}/>
-          <Material material ={mat} openModal={setModalEditOpen}/>
-          <Material material ={mat} openModal={setModalEditOpen}/>
+          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
+          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
+          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
+          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
+          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
+          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
+          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
           {materials.length !== 0 ? (
             materials.filter((val) => {
               if (search == "") {
