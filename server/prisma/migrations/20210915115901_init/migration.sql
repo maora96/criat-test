@@ -1,0 +1,10 @@
+-- CreateTable
+CREATE TABLE `Materials` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `description` VARCHAR(255) NOT NULL,
+    `brand` ENUM('PORTOBELLO', 'DECORTILES', 'PORTINARI', 'DELTA', 'CEUSA') NOT NULL,
+    `active` BOOLEAN NOT NULL DEFAULT false,
+    `desactivatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

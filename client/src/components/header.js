@@ -6,9 +6,9 @@ const Header = () => {
         <>
         <header>
             <nav>
-                <img src="https://www.cria.io/wp-content/uploads/2020/09/logo-cria-preta.png" alt="cria logo"/>
+               <span className="title">Materiais</span>
 
-                <span style="background-color: #065de5">Adicionar material</span>
+                <span>Adicionar material</span>
             </nav>
         </header>
         </>

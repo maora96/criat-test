@@ -13,12 +13,15 @@ generator client {
 model Materials {
   id  Int @default(autoincrement()) @id
   description String @db.VarChar(255)
-  brand Brands @relation(fields: [])
+  brand Brands 
   active Boolean @default(false)
   desactivatedAt DateTime @default(now())
 }
 
-model Brands {
-  id Int @default(autoincrement()) @id
-  name String @db.VarChar(100)
+enum Brands {
+ PORTOBELLO
+ DECORTILES
+ PORTINARI
+ DELTA
+ CEUSA
 }
