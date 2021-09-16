@@ -1,4 +1,4 @@
-# criat-test
+# cria-test
 
 project for cria's selection process.
 
