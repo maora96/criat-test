@@ -1,11 +1,11 @@
 import React from "react";
 
 const Material = (props) => {
-    const { material, openModal, openDeleteModal} = props;
+    const { material, openModal, openDeleteModal, setId} = props;
     return (
         <>
         <div className="card">
-            <img src={material.thumb} alt="material" className="thumb"/>
+            <img src={process.env.PUBLIC_URL + "images/" + material.thumb} alt="material" className="thumb"/>
             <div className="card-content">
                 <div className="card-header">
                     <span>{material.name}</span>
@@ -15,8 +15,10 @@ const Material = (props) => {
                 <div className="card-footer">
                     <div className="footer-container">
                         <button onClick={() => {
+                            setId(material.id)
                             openModal(true)
                         }}>editar</button><button onClick={() => {
+                            setId(material.id)
                             openDeleteModal(true)
                         }}>deletar</button>
                     </div>

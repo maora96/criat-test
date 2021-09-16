@@ -1,14 +1,16 @@
 const express = require('express')
 const router = express.Router()
 
+const multer = require('./middlewares/multer')
+
 // controllers
 const Materials = require('./controllers/materials');
 
 router.get('/materials', Materials.getAllMaterials);
-router.get('/search/materials', Materials.searchMaterials);
 router.get('/materials/:id', Materials.getMaterialById);
-router.post('/materials', Materials.addMaterial);
-router.patch('/materials/:id', Materials.updateMaterialById);
+router.post('/materials', multer.upload.single('file'), Materials.addMaterial);
+router.put('/materials/:id', Materials.updateMaterialById);
+router.put('/materials/thumb/:id', multer.upload.single('file'), Materials.updateMaterialThumbById);
 router.delete('/materials/:id', Materials.deleteMaterialById)
 
 

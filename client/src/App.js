@@ -4,37 +4,34 @@ import Material from './components/material';
 import ModalCreate from "./components/modal-create";
 import ModalEdit from "./components/modal-edit";
 import ModalDelete from './components/modal-delete';
+import axios from "axios"
+
+
 
 function App() {
 
   const [materials, setMaterials] = React.useState([])
   const [search, setSearch] = React.useState("")
+  const [currentId, setCurrentId] = React.useState()
   const [modalEditOpen, setModalEditOpen] = React.useState(false)
   const [modalCreateOpen, setModalCreateOpen] = React.useState(false)
   const [modalDeleteOpen, setModalDeleteOpen] = React.useState(false)
 
   React.useEffect(() => {
-    fetch("https://localhost:3001/materials")
-      .then((res) => res.json()
-      .then((resJson => {
-      console.log(resJson)
-      setMaterials(resJson.data)
-    })))
+
+    axios.get("http://localhost:3001/materials")
+      .then(res => {
+        setMaterials(res.data)
+      })
+      .catch(err => console.log(err.response))
   }, [])
 
 
-  let mat = {
-    thumb: "https://imagens.portobello.com.br/unsafe/375x310/https://www.portobello.com.br//data/lines/banner/medio/araucaria_986.jpg",
-    name: "material name",
-    brand: "portobello",
-    description: "A reprodução da Araucária, espécie nativa da Mata Atlântica da região Sul do Brasil."
-  }
-
   return (
     <div className="App">
-      {modalEditOpen && <ModalEdit closeModal={setModalEditOpen}/>}
-      {modalCreateOpen && <ModalCreate closeModal={setModalCreateOpen}/>}
-      {modalDeleteOpen && <ModalDelete closeModal={setModalDeleteOpen}/>}
+      {modalEditOpen && <ModalEdit closeModal={setModalEditOpen} id={currentId}  updateMaterials={setMaterials}/>}
+      {modalCreateOpen && <ModalCreate closeModal={setModalCreateOpen}  updateMaterials={setMaterials}/>}
+      {modalDeleteOpen && <ModalDelete closeModal={setModalDeleteOpen} id={currentId} updateMaterials={setMaterials}/>}
         <header>
             <nav>
                <span className="title">Materiais</span>
@@ -46,11 +43,7 @@ function App() {
         </header>
       <div className="container">
         <div className="search-box">
-          <form onSubmit={(event) => {
-            console.log("hio")
-            event.preventDefault();
-            //fetch
-          }}>
+          <form>
             <input type="text" placeholder="Digite o nome do material..." onChange={(event) => {
               setSearch(event.target.value)
             }}></input>
@@ -59,26 +52,19 @@ function App() {
         </div>      
         
         <div className="materials-box">
-          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
-          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
-          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
-          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
-          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
-          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
-          <Material material ={mat} openModal={setModalEditOpen} openDeleteModal={setModalDeleteOpen}/>
           {materials.length !== 0 ? (
             materials.filter((val) => {
-              if (search == "") {
+              if (search === "") {
                 return val
               } else if (val.name.toLowerCase().includes(search.toLowerCase()) || val.brand.toLowerCase().includes(search.toLowerCase())) {
                 return val
               }
             }).map((i) => {
               return (
-                <Material material = {i}/>
+                <Material material = {i} openModal={setModalEditOpen} setId={setCurrentId} openDeleteModal={setModalDeleteOpen}/>
               )
             })
-          ): (<div></div>)}
+          ): (<div>Nenhum material encontrado...</div>)}
         </div>
       </div>
     </div>

@@ -1,8 +1,27 @@
 import React from "react";
-import { Formik } from 'formik';
+import axios from "axios"
 
 function ModalEdit(props) {
-    const {closeModal} = props;
+    const {closeModal, id, updateMaterials} = props;
+    const [name, setName] = React.useState();
+    const [brand, setBrand] = React.useState();
+    const [description, setDescription] = React.useState();
+    const [isActive, setIsActive] = React.useState(true);
+    const [file, setFile] = React.useState();
+
+    React.useEffect(() => {
+      axios.get(`http://localhost:3001/materials/${id}`)
+      .then(res => {
+        console.log(res)
+        setName(res.data.name)
+        setBrand(res.data.brand)
+        setDescription(res.data.description)
+        setIsActive(res.data.isActive)
+        setFile(res.data.thumb)
+      })
+      .catch(err => console.log(err.response))
+    }, [id])
+
     return <>
     
     <div className="modal-bg">
@@ -12,77 +31,87 @@ function ModalEdit(props) {
                 <button onClick={() => closeModal(false)}>X</button>
             </div>
             <div className="modal-body">
-                <Formik
-                    initialValues={{
-                        "name": '',
-                        "description": "",
-                        "brand": "",
-                        "thumb": "",
-                        "isActive": true
-                    }}
-                    onSubmit={(values, { setSubmitting }) => {
-                        setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                     }, 400);
-       }}
-     >
-       {({
-         values,
-         handleChange,
-         handleBlur,
-         handleSubmit,
-         isSubmitting,
-       }) => (
-         <form onSubmit={handleSubmit}>
-           <label>Nome</label>
-           <input
-             type="text"
-             name="name"
-             onChange={handleChange}
-             onBlur={handleBlur}
-             value={values.name}
-           />
+            <form onSubmit={(event) => {
+                event.preventDefault()
+                const data = new FormData();
+                data.append("name", name);
+                data.append("brand", brand);
+                data.append("description", description)
+                data.append("isActive", isActive);
+                data.append("file", file)
+
+                let jsonObject = {
+                  name, 
+                  brand, 
+                  description,
+                  isActive
+                };
+
+                axios.put(`http://localhost:3001/materials/thumb/${id}`, data).then(res => console.log(res))
+                .catch(err => console.log(err.response))
+                
+                axios.put(`http://localhost:3001/materials/${id}`, jsonObject)
+                  .then(res => console.log(res))
+                  .catch(err => console.log(err.response))
+
+                  axios.get("http://localhost:3001/materials")
+                        .then(res => {
+                            console.log(res)
+                            updateMaterials(res.data)
+                        })
+                        .catch(err => console.log(err.response))
+                    
+                        closeModal(false)
+              }}>
+              <label>Nome</label>
+           <input type="text" id="name" value={name} onChange={event => {
+             let value = event.target.value; 
+             setName(value)
+           }}/>
 
             <label>Marca</label>
-           <select
-                name="brand"
-                value={values.brand}
-                 onChange={handleChange}
-                onBlur={handleChange}
-            >
-                <option value="" label="Selecione marca" />
+           <select id="brand" value={brand} onChange={event => {
+             let value = event.target.value;
+             setBrand(value)
+             
+           }}>
+                <option value="" label="Selecione a marca" />
                 <option value="PORTOBELLO" label="Portobello" />
-                <option value="Main" label="Main" />
-                <option value="Side" label="Side" />
+                <option value="DECORTILES" label="Decortiles" />
+                <option value="PORTINARI" label="Portinari" />
+                <option value="DELTA" label="Delta" />
+                <option value="CEUSA" label="Ceusa" />
             </select>
 
 
             <label>Descrição</label>
-           <textarea
-             name="description"
-             onChange={handleChange}
-             onBlur={handleBlur}
-             value={values.description}
+           <textarea id="description" value={description} onChange={event => {
+             let value = event.target.value; 
+             setDescription(value)
+           }}
            />
 
            <div className="checkbox-input">
                <label>Está ativo?</label>
-                <input type="checkbox" name="isActive" value={values.isActive} onChange={handleChange}
-                onBlur={handleChange}></input>
+                <input type="checkbox" id="isActive" checked={isActive} onClick={event => {
+                  setIsActive(!isActive)
+                  console.log(isActive)
+                }}
+               ></input>
 
            </div>
 
            <label>Thumb</label>
-           <input type="file" name="thumb" value={values.thumb}></input>
+           <input type="file" id="thumb" onChange={event => {
+             let file = event.target.files[0]
+             setFile(file)
+           }}></input>
 
            <div className="modal-footer">
                 <button onClick={() => closeModal(false)}>Cancelar</button>
-                <button type="submit" disabled={isSubmitting}>Submit</button>
+                <button type="submit">Submit</button>
             </div>
-         </form>
-       )}
-     </Formik>
+              </form>
             </div>
             
         </div>

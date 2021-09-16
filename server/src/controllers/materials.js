@@ -1,13 +1,24 @@
-import {PrismaClient} from "@prisma/client"
+const {PrismaClient} = require("@prisma/client")
+
 const prisma = new PrismaClient();
 
 
+
 const addMaterial = async (req, res) => {
-    const {description} = req.body;
+    console.log(req.file)
+    
+    const {name, description, brand, isActive} = req.body;
+    const {file} = req;
+
+    let active = (isActive === "true")
 
     const material = await prisma.materials.create({
-        data: {
-            description: description
+      data: {
+            description: description,
+            name: name, 
+            brand: brand, 
+            isActive: active,
+            thumb: file.filename
         }
     })
 
@@ -20,23 +31,23 @@ const getAllMaterials = async (req, res) => {
 }
 
 const getMaterialById = async (req, res) => {
-    const { id } = req.params.id; 
-
+    console.log("GETTING MATERIAL BY ID")
+    const { id } = req.params; 
     const material = await prisma.materials.findUnique({
         where: {
-            id: id
-        }
-    })
+          id: Number(id),
+        },
+      })
 
     res.json(material)
 }
 
 const deleteMaterialById = async (req, res) => {
-    const { id } = req.params.id; 
+    const { id } = req.params; 
 
     const deletedMaterial = await prisma.materials.delete({
         where: {
-            id: id
+            id: Number(id)
         }
     })
 
@@ -44,32 +55,40 @@ const deleteMaterialById = async (req, res) => {
 }
 
 const updateMaterialById = async (req, res) => {
-    const { id } = req.params.id; 
-    const {description} = req.body;
+    const { id } = req.params; 
+    console.log("body",req.body)
+    const {name, description, brand, isActive} = req.body;
 
+    let active = (isActive === "true")
+    console.log(name, description, brand, active)
     const updatedMaterial = await prisma.materials.update({
-        where: {id: id},
+        where: {id: Number(id)},
         data: {
-            description: description
+            description: description,
+            name: name, 
+            brand: brand, 
+            isActive: active,
         }
     })
 
     res.json(updatedMaterial)
 }
 
-const searchMaterials = async (req, res) => {
-    const {search} = req.query.search; 
+const updateMaterialThumbById = async (req, res) => {
+    const { id } = req.params; 
+    const {file} = req;
+    console.log(file)
 
-    const materials = await prisma.materials.findMany({
-        where: {
-          description: {
-            contains: search,
-          },
-        },
-      })
+    const updatedMaterial = await prisma.materials.update({
+        where: {id: Number(id)},
+        data: {
+            thumb: file.filename
+        }
+    })
 
-      res.json(materials)
+    res.json(updatedMaterial)
 }
+
 
 module.exports = {
     addMaterial,
@@ -77,5 +96,5 @@ module.exports = {
     getMaterialById,
     deleteMaterialById,
     updateMaterialById,
-    searchMaterials
+    updateMaterialThumbById
 }

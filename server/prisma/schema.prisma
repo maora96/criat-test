@@ -12,10 +12,12 @@ generator client {
 
 model Materials {
   id  Int @default(autoincrement()) @id
+  name String @db.VarChar(255)
   description String @db.VarChar(255)
   brand Brands 
-  active Boolean @default(false)
+  isActive Boolean @default(false)
   desactivatedAt DateTime @default(now())
+  thumb String @db.VarChar(255)
 }
 
 enum Brands {
