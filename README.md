@@ -1,10 +1,42 @@
 # criat-test
 
-##todo
-1. search results [x]
-2. schemas (add, update, delete, etc) [x]
-3. controllers/repositories [x]
-4. front end styling
-5. images for back end 
-6. right fields for controllers
-7. front end functionality
+project for cria's selection process.
+
+## technologies
+
+- react
+- nodejs
+- mysql
+- prisma
+- express
+
+## dependencies
+- react
+- axios
+- prisma
+- @prisma/client
+- cors
+- dotenv
+- multer
+- express
+
+## start project
+
+```bash
+# clone repository
+$ git clone https://github.com/maora96/parafuzo-test.git
+
+# install back-end dependencies
+$ cd server
+$ npm install
+
+# run server
+$ node index.js
+
+# install front-end dependencies
+$ cd client
+$ npm install
+
+# run app
+$ npm start
+```
