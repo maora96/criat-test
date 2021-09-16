@@ -24,7 +24,7 @@ project for cria's selection process.
 
 ```bash
 # clone repository
-$ git clone https://github.com/maora96/parafuzo-test.git
+$ git clone https://github.com/maora96/criat-test.git
 
 # install back-end dependencies
 $ cd server
